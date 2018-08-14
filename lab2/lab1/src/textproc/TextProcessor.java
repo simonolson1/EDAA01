@@ -1,7 +1,5 @@
 package textproc;
 
-import javafx.util.Callback;
-
 /**
  * Beskriver metoder för att behandla en sekvens av ord (som en bok), och därefter
  * presentera ett resultat med statistik av något slag.
@@ -16,7 +14,4 @@ public interface TextProcessor {
 	 * en sammanställning av statistiken.
 	 */
 	void report();
-
-	
-	
 }
