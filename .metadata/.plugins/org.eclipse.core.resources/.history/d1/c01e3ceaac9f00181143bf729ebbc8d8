@@ -1,0 +1,41 @@
+package textproc;
+
+import java.io.File;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+
+public class BookReaderController extends Application {
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		BorderPane root = new BorderPane();
+		
+		Scene scene = new Scene(root, 500, 500);
+		primaryStage.setTitle("BookReader");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+		
+		
+		
+		Scanner scan = new Scanner(new File("undantagsord.txt"));
+		Set<String> stopwords = new HashSet<String>(); // en lämplig mängd skapas
+		while(scan.hasNext()){
+			String w = scan.next().toLowerCase();//undantagsorden läggs till i mängden
+			stopwords.add(w);
+		}
+		scan.close();
+		
+		TextProcessor p = new GeneralWordCounter(stopwords);
+	}
+
+	public static void main(String[] args) {
+		Application.launch(args);
+	}
+
+}
