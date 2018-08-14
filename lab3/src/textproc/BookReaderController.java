@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.Map.Entry;
 import java.util.*;
 
 import javafx.collections.*;
@@ -53,15 +54,12 @@ public class BookReaderController extends Application {
 		}
 		s.close();
 		
-		ObservableList<String> words= FXCollections.observableArrayList(gwc.getWords());
 		
-		ListView<String> listView = new ListView<String>(words);
-		
+		ObservableList<Entry<String, Integer>> words= FXCollections.observableArrayList(gwc.getWords());
+		ListView<Entry<String, Integer>> listView = new ListView<Entry<String, Integer>>(words);
 		root.setCenter(listView);
 		}
-	
-		
-		
+
 	public static void main(String[] args) {
 		Application.launch(args);
 	}
