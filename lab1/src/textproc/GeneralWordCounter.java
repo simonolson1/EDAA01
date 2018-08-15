@@ -31,7 +31,7 @@ public class GeneralWordCounter implements TextProcessor {
 		Set<Map.Entry<String, Integer>> wordSet = karta2.entrySet();
 		List<Map.Entry<String, Integer>> wordList = new ArrayList<>(wordSet);
 		wordList.sort(new WordCountComparator());
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 50; i++) {
 			System.out.println(wordList.get(i));
 		}
 	}
