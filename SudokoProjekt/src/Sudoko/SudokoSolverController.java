@@ -48,7 +48,6 @@ public class SudokoSolverController extends Application {
 					switchColor = true;
 				}
 			}
-
 			tile.getChildren().add(textBox);
 		}
 
@@ -57,6 +56,16 @@ public class SudokoSolverController extends Application {
 		root.setBottom(hbox);
 
 		button1.setOnAction(event -> {
+			SudokoSolver s = new SudokoSolver(getMatrix(tile));
+			s.solve();
+			
+			/*
+		 	int[][]testmatris = getMatrix(tile);
+			System.out.println(testmatris[0][0]);
+			System.out.println(testmatris[0][1]);
+			System.out.println(testmatris[0][2]);
+			System.out.println(testmatris[0][3]);
+			System.out.println(testmatris[8][8]);*/
 			
 		});
 		button2.setOnAction(event -> {
@@ -74,6 +83,25 @@ public class SudokoSolverController extends Application {
 		        ((OneNumberTextField)node).setText("");
 		    }
 		}
+	}
+	private int[][] getMatrix(TilePane tile){
+		int [][] sudokoMatrix = new int [9][9];
+		int counter = 0;
+		int b;
+		for(Node node : tile.getChildren()){
+			if(node instanceof OneNumberTextField){
+				String a = ((OneNumberTextField) node).getText();
+				if(a.equals("")){
+					b = 0;
+				}
+				else{
+					b = Integer.parseInt(a);
+				}
+				sudokoMatrix [(counter%9)][(counter/9)] = b;
+			}
+			counter++;
+		}
+		return sudokoMatrix;
 	}
 
 	public static void main(String[] args) {
