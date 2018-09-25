@@ -59,8 +59,8 @@ public class SudokoSolverController extends Application {
 			SudokoSolver s = new SudokoSolver(getMatrix(tile));
 			s.solve();
 			
-			/*
-		 	int[][]testmatris = getMatrix(tile);
+			
+		 	/*int[][]testmatris = getMatrix(tile);
 			System.out.println(testmatris[0][0]);
 			System.out.println(testmatris[0][1]);
 			System.out.println(testmatris[0][2]);
