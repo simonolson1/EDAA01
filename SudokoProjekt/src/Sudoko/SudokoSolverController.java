@@ -3,6 +3,7 @@ package Sudoko;
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -13,7 +14,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class SudokoSolverController extends Application {
-	
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
@@ -54,50 +55,62 @@ public class SudokoSolverController extends Application {
 		BorderPane root = new BorderPane();
 		root.setCenter(tile);
 		root.setBottom(hbox);
-
-		button1.setOnAction(event -> {
-			SudokoSolver s = new SudokoSolver(getMatrix(tile));
-			s.solve();
-			
-			
-		 	/*int[][]testmatris = getMatrix(tile);
-			System.out.println(testmatris[0][0]);
-			System.out.println(testmatris[0][1]);
-			System.out.println(testmatris[0][2]);
-			System.out.println(testmatris[0][3]);
-			System.out.println(testmatris[8][8]);*/
-			
-		});
-		button2.setOnAction(event -> {
-			clear(tile);
-		});
-
+		
 		Scene scene = new Scene(root, xaxis, yaxis + 25);
 		primaryStage.setTitle("SudokoSolver");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+
+		button1.setOnAction(event -> {
+			SudokoSolver s = new SudokoSolver(getMatrix(tile));
+			if (s.solve()) {
+				int col = 0;
+				int row = 0;
+				for (Node node : tile.getChildren()) {
+					if (node instanceof OneNumberTextField) {
+						((OneNumberTextField) node).setText(s.getStringValue(col, row));
+						if (col == 8) {
+							row++;
+							col = 0;
+						} else {
+							col++;
+						}
+					}
+				}
+			}
+			else{
+				Alert alert = new Alert(Alert.AlertType.INFORMATION, "Ingen lösning funnen");
+				alert.setHeaderText(null);
+				alert.showAndWait();
+			}
+		});
+
+		button2.setOnAction(event -> {
+			clear(tile);
+		});
 	}
-	private void clear(TilePane tile){
+
+	private void clear(TilePane tile) {
 		for (Node node : tile.getChildren()) {
-		    if (node instanceof OneNumberTextField) {
-		        ((OneNumberTextField)node).setText("");
-		    }
+			if (node instanceof OneNumberTextField) {
+				((OneNumberTextField) node).setText("");
+			}
 		}
 	}
-	private int[][] getMatrix(TilePane tile){
-		int [][] sudokoMatrix = new int [9][9];
+
+	private int[][] getMatrix(TilePane tile) {
+		int[][] sudokoMatrix = new int[9][9];
 		int counter = 0;
 		int b;
-		for(Node node : tile.getChildren()){
-			if(node instanceof OneNumberTextField){
+		for (Node node : tile.getChildren()) {
+			if (node instanceof OneNumberTextField) {
 				String a = ((OneNumberTextField) node).getText();
-				if(a.equals("")){
+				if (a.equals("")) {
 					b = 0;
-				}
-				else{
+				} else {
 					b = Integer.parseInt(a);
 				}
-				sudokoMatrix [(counter%9)][(counter/9)] = b;
+				sudokoMatrix[(counter % 9)][(counter / 9)] = b;
 			}
 			counter++;
 		}
@@ -107,5 +120,4 @@ public class SudokoSolverController extends Application {
 	public static void main(String[] args) {
 		Application.launch(args);
 	}
-
 }

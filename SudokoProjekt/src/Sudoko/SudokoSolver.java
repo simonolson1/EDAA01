@@ -2,12 +2,16 @@ package Sudoko;
 
 public class SudokoSolver {
 	private int[][] sudokoMatris;
-
+	/**
+	 * Creates empty sudokuboard.
+	 */
 	public SudokoSolver() {
 		sudokoMatris = new int[9][9];
 
-	}// constructor
-
+	}
+	/**
+	 * Creates sudokuboard from matrix
+	 */
 	public SudokoSolver(int[][] matris) {
 		sudokoMatris = matris;
 	}// också constructor
@@ -20,9 +24,12 @@ public class SudokoSolver {
 		return this.sudokoMatris[index][indey];
 	}// tar ut
 
-	private boolean checkBigBox(int i, int j, int value) { // return true om det
-															// finns plats för
-															// value
+	public String getStringValue(int col, int row) {
+		Integer value = sudokoMatris[col][row];
+		return value.toString();
+	}// returnera sträng-värde
+
+	private boolean checkBigBox(int i, int j, int value) { // return true om det finns plats i 3*3 box												// finns plats för													// value
 		int ii = (i / 3) * 3; // Högst upp i hörnet på varje bigbox
 		int jj = (j / 3) * 3;
 		for (int k = ii; k < ii + 3; k++) {
@@ -35,9 +42,7 @@ public class SudokoSolver {
 		return true;
 	}
 
-	private boolean checkColumn(int a, int b, int value) { // return true om det
-															// finns plats för
-															// value
+	private boolean checkColumn(int a, int b, int value) { // return true om det finns plats för value													
 		int row = 0;
 		int col = a;
 		while (row < 9) {
@@ -82,30 +87,12 @@ public class SudokoSolver {
 		} else {
 			return null;
 		}
-		int re[] = { a, b };
+		int re[] = { a, b }; // vector of indexes for next cell
 		return re;
 	}
 
 	public boolean solve() {
-		if (solve(0, 0)) {
-			System.out.println("Det fanns en lösning!");
-			return true;
-		} else {
-			System.out.println("Det fanns INTE en lösning!");
-			for (int i = 0; i < 9; i++) {
-				for (int j = 0; j < 9; j++) {
-					System.out.println(sudokoMatris[i][j]);
-				}
-			}
-			return false;
-		}
-
-		/*
-		 * System.out.println("jaa"); System.out.println(sudokoMatris[0][2]);
-		 * System.out.println(sudokoMatris[0][3]);
-		 * System.out.println(sudokoMatris[8][8]);
-		 */
-
+		return solve(0, 0);
 	}
 
 	private boolean solve(int i, int j) {
@@ -124,8 +111,7 @@ public class SudokoSolver {
 			}
 			put(0, i, j);
 			return false;
-		}
-		else {
+		} else {
 			if (checkColumn(i, j, get(i, j)) && checkRow(i, j, get(i, j)) && checkBigBox(i, j, get(i, j))) {
 				int[] next = nextCell(i, j);
 				if (next == null) {
@@ -133,12 +119,10 @@ public class SudokoSolver {
 				}
 				if (solve(next[0], next[1])) {
 					return true;
-				}
-				else{
+				} else {
 					return false;
 				}
-			}
-			else {
+			} else {
 				return false;
 			}
 		}
